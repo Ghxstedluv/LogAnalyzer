@@ -41,28 +41,44 @@ public class LogReader {
         System.out.println("Log file read!:");
         System.out.println("Errors: " + errorCount);
         System.out.println("Warns: " + warnCount);
-        System.out.println("Would you like the see the errors? (yes/no)");
-        if (scanner.nextLine().equals("yes")) {
-            for (String err : errorLines) {
-                System.out.println(err);
-            }
-            for (String err : warnLines) {
-                System.out.println(err);
+        while (true){
+            System.out.println("Would you like the see the errors? (yes/no)");
+            String input = scanner.nextLine();
+            if (input.equalsIgnoreCase("yes")) {
+                for (String err : errorLines) {
+                    System.out.println(err);
+                }
+                for (String err : warnLines) {
+                    System.out.println(err);
+                }
+                break;
+            } else if (input.equalsIgnoreCase("no")) {
+                break;
+            } else {
+                System.out.println("Invalid input, please type yes or no.");
             }
         }
-        System.out.println("Would you like to save the errors? (yes/no)");
-        if (scanner.nextLine().equals("yes")) {
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(errorFile))) {
-                for (String err : errorLines) {
-                    bw.write(err);
-                    bw.newLine();
+        while (true){
+            System.out.println("Would you like to save the errors? (yes/no)");
+            String input = scanner.nextLine();
+            if (input.equalsIgnoreCase("yes")) {
+                try (BufferedWriter bw = new BufferedWriter(new FileWriter(errorFile))) {
+                    for (String err : errorLines) {
+                        bw.write(err);
+                        bw.newLine();
+                    }
+                    for (String wrr : warnLines) {
+                        bw.write(wrr);
+                        bw.newLine();
+                    }
+                } catch (IOException e) {
+                    System.err.println("Error writing file!");
                 }
-                for (String wrr : warnLines) {
-                    bw.write(wrr);
-                    bw.newLine();
-                }
-            } catch (IOException e) {
-                System.err.println("Error writing file!");
+                break;
+            } else if (input.equalsIgnoreCase("no")) {
+                break;
+            } else {
+                System.out.println("Invalid input, please type yes or no.");
             }
         }
     }
